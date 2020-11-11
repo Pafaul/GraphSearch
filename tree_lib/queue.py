@@ -2,6 +2,12 @@ class Queue:
     def __init__(self):
         self.elements = []
 
+    def __str__(self):
+        result_string = ''
+        for e in self.elements:
+            result_string += str(e) + '\n'
+        return result_string
+
     def make_queue(self, elements):
         self.elements = [e for e in elements]
 
