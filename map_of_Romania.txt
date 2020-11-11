@@ -3,11 +3,11 @@ Zerind->Arad,Oradea
 Oradea->Zerind,Sibiu
 Timisoara->Arad,Lugoj
 Lugoj->Timisoara,Mehadia
-Mehadia->Lugoj,Drobera
-Drobera->Mehadia,Craiova
+Mehadia->Lugoj,Drobeta
+Drobeta->Mehadia,Craiova
 Sibiu->Arad,Fagaras,RimnicuVilcea
 Fagaras->Sibiu,Bucharest
-Craiova->RimnicuVilcea,Pitesti,Drobera
+Craiova->RimnicuVilcea,Pitesti,Drobeta
 RimnicuVilcea->Sibiu,Pitesti,Craiova
 Pitesti->RimnicuVilcea,Craiova,Bucharest
 Bucharest->Fagaras,Pitesti,Giurgiu,Urziceni

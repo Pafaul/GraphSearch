@@ -1,7 +1,7 @@
 from .queue import Queue
 
 class Node:
-    def __init__(self, state, parent_node=None, action=None, path_cost=[], depth=0, successors=[]):
+    def __init__(self, state, parent_node=None, action=None, path_cost=0, depth=0, successors=[]):
         self.state = state
         self.parent_node = parent_node
         self.action = action
@@ -42,14 +42,16 @@ class Node:
         return previous_nodes
 
 
-def create_successors(node, node_connections):
+def create_successors(node, node_connections, cost=None):
     successors = []
-    new_node_path = node.path_to_root_node().append(node)
     for connection in node_connections[str(node.state)]:
+        new_node_cost = 0
+        if (cost is not None):
+            new_node_cost = node.path_cost+cost[str(node.state) + ' ' + str(connection)]
         new_node_depth = node.depth+1
         new_node_action = str(node.action)+' '+str(connection)
         new_node_state = connection
-        successors.append(Node(new_node_state, node, new_node_action, new_node_path, new_node_depth))
+        successors.append(Node(new_node_state, node, new_node_action, new_node_cost, new_node_depth))
 
     return successors
 
@@ -73,17 +75,17 @@ def check_successors(node, successors):
     return passed
 
 
-def build_tree_from_info(start_point, node_connections):
+def build_tree_from_info(start_point, node_connections, cost=None):
     print('Building tree')
     q = Queue()
-    root = Node(start_point, action=str(start_point))
+    root = Node(start_point, action=str(start_point), path_cost=0)
     q.insert(root)
     count = 0
     while not q.empty():
         node = q.remove_first()
         if not node.visited:
             count += 1
-            successors = create_successors(node, node_connections)
+            successors = create_successors(node, node_connections, cost)
             successors = check_successors(node, successors)
             node.set_successors(successors)
             node.visited = True
@@ -102,3 +104,24 @@ def width_search(root, target):
         q.insert_all(node.successors)
 
     return None
+
+
+def a_star_search(root, target, h):
+    def f(node):
+        return node.path_cost + h[str(node.state)]
+
+    q = Queue()
+    q.insert(root)
+    while not q.empty():
+        node = q.remove_first()
+        if (str(node.state) == str(target)):
+            return node
+
+        min_dist = f(node.successors[0])
+        min_node = node.successors[0]
+        for s in node.successors:
+            s_dist = f(s)
+            if s_dist < min_dist:
+                min_dist = s_dist
+                min_node = s
+        q.insert(min_node)

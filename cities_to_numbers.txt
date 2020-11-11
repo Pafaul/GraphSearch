@@ -4,7 +4,7 @@ Oradea->2
 Timisoara->3
 Lugoj->4
 Mehadia->5
-Drobera->6
+Drobeta->6
 Sibiu->7
 Fagaras->8
 Craiova->9
